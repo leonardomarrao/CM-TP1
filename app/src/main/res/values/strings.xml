@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">CMtrab1</string>
     <string name="notaInicial">Notes</string>
+    <string name="add_city">Add City</string>
+    <string name="insertcountry">Insert Country</string>
+    <string name="insertcity">Insert City</string>
 </resources>
