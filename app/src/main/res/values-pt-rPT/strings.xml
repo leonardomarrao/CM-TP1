@@ -3,4 +3,8 @@
     <string name="app_name">CMtrab1</string>
     <string name="notaInicial" translatable="false">Notas</string>
     <string name="add_city">Adicionar cidade</string>
+    <string name="save_note">Guardar Nota</string>
+    <string name="delete_note">Apagar nota</string>
+    <string name="delete_note_confirmation">Apagar nota</string>
+    <string name="delete_note_confirmation_text">Você tem certeza que deseja apagar essa nota?</string>
 </resources>

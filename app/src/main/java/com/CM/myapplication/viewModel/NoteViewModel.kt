@@ -35,24 +35,25 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // delete by city
-    fun deleteByCity(city: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteByCity(city)
+    fun deleteByTitulo(city: String) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteByTitulo(city)
     }
 
-    fun getCitiesByCountry(country: String): LiveData<List<Note>> {
-        return repository.getCitiesByCountry(country)
+    fun deleteById(id: Int?) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteById(id)
     }
 
-    fun getCountryFromCity(city: String): LiveData<Note> {
-        return repository.getCountryFromCity(city)
+
+    fun getNotaFromTitulo(city: String): LiveData<Note> {
+        return repository.getNotaFromTitulo(city)
     }
 
-    fun updateCity(note: Note) = viewModelScope.launch {
-        repository.updateCity(note)
+    fun updateTitulo(note: Note) = viewModelScope.launch {
+        repository.updateTitulo(note)
     }
 
-    fun updateCountryFromCity(city: String, country: String) = viewModelScope.launch {
-        repository.updateCountryFromCity(city, country)
+    fun updateNotaFromTitulo(city: String, country: String) = viewModelScope.launch {
+        repository.updateNotaFromTitulo(city, country)
     }
 }
 

@@ -7,14 +7,12 @@ import com.CM.myapplication.entities.Note
 
 class NoteRepository(private val noteDao: NoteDao) {
 
-    val allNotes: LiveData<List<Note>> = noteDao.getAllCities()
+    val allNotes: LiveData<List<Note>> = noteDao.getAllNotes()
 
-    fun getCitiesByCountry(nota: String): LiveData<List<Note>> {
-        return noteDao.getCitiesByCountry(nota)
-    }
 
-    fun getCountryFromCity(titulo: String): LiveData<Note> {
-        return noteDao.getCountryFromCity(titulo)
+
+    fun getNotaFromTitulo(titulo: String): LiveData<Note> {
+        return noteDao.getNotaFromTitulo(titulo)
     }
 
     suspend fun insert(note: Note) {
@@ -25,15 +23,19 @@ class NoteRepository(private val noteDao: NoteDao) {
         noteDao.deleteAll()
     }
 
-    suspend fun deleteByCity(titulo: String){
-        noteDao.deleteByCity(titulo)
+    suspend fun deleteByTitulo(titulo: String){
+        noteDao.deleteByTitulo(titulo)
     }
 
-    suspend fun updateCity(note: Note) {
-        noteDao.updateCity(note)
+    suspend fun updateTitulo(note: Note) {
+        noteDao.updateTitulo(note)
     }
 
-    suspend fun updateCountryFromCity(titulo: String, nota: String){
-        noteDao.updateCountryFromCity(titulo, nota)
+    suspend fun updateNotaFromTitulo(titulo: String, nota: String){
+        noteDao.updateNotaFromTitulo(titulo, nota)
+    }
+
+    suspend fun deleteById(id: Int?) {
+        noteDao.deleteById(id)
     }
 }
