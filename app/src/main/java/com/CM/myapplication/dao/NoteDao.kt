@@ -31,6 +31,9 @@ interface NoteDao {
     @Query("UPDATE note_table SET nota=:nota WHERE titulo == :titulo")
     suspend fun updateNotaFromTitulo(titulo: String, nota: String)
 
+    @Query("UPDATE  note_table SET titulo = :titulo , nota = :nota where id = :id")
+    suspend fun updateNotaFromId(id:Int, titulo :String, nota: String)
+
     @Query("Delete From note_table Where id = :id")
     suspend fun deleteById(id: Int?)
 }

@@ -42,6 +42,7 @@
         android:layout_height="45dp"
         android:layout_marginTop="216dp"
         android:text="@string/save_note"
+        android:onClick="updateNota"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notaEspecifica" />

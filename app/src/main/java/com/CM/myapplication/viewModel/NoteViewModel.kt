@@ -55,5 +55,15 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     fun updateNotaFromTitulo(city: String, country: String) = viewModelScope.launch {
         repository.updateNotaFromTitulo(city, country)
     }
+
+    fun updateNotaFromId(id: Int, titulo: String, nota: String) = viewModelScope.launch {
+        repository.updateNotaFromId(id, titulo, nota)
+    }
+
+
+
+
+
+
 }
 

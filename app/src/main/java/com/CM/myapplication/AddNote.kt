@@ -10,24 +10,24 @@ import android.widget.EditText
 
 class AddNote : AppCompatActivity() {
 
-    private lateinit var cityText: EditText
-    private lateinit var countryText: EditText
+    private lateinit var tituloText: EditText
+    private lateinit var notaText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_city)
 
-        cityText = findViewById(R.id.city)
-        countryText = findViewById(R.id.country)
+        tituloText = findViewById(R.id.titulo)
+        notaText = findViewById(R.id.nota)
 
         val button = findViewById<Button>(R.id.button_save)
         button.setOnClickListener {
             val replyIntent = Intent()
-            if (TextUtils.isEmpty(cityText.text)) {
+            if (TextUtils.isEmpty(tituloText.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
-                replyIntent.putExtra(EXTRA_REPLY_CITY, cityText.text.toString())
-                replyIntent.putExtra(EXTRA_REPLY_COUNTRY, countryText.text.toString())
+                replyIntent.putExtra(EXTRA_REPLY_CITY, tituloText.text.toString())
+                replyIntent.putExtra(EXTRA_REPLY_COUNTRY, notaText.text.toString())
                 setResult(Activity.RESULT_OK, replyIntent)
             }
             finish()

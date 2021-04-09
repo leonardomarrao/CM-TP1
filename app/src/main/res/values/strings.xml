@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">CMtrab1</string>
     <string name="notaInicial">Notes</string>
-    <string name="add_city">Add City</string>
-    <string name="insertcountry">Insert Country</string>
-    <string name="insertcity">Insert City</string>
     <string name="save_note">Save note</string>
     <string name="delete_note">Delete note</string>
     <string name="delete_note_confirmation">Delete Note</string>
     <string name="delete_note_confirmation_text">Are you sure you want to delete this note?</string>
+    <string name="erro_edit">Error</string>
+    <string name="nota_apagada">Note deleted</string>
+    <string name="cancel_apagar">Cancel</string>
+    <string name="title">Title</string>
+    <string name="note">Note</string>
 </resources>
