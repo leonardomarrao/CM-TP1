@@ -11,4 +11,7 @@
     <string name="cancel_apagar">Cancelar</string>
     <string name="title">Título</string>
     <string name="note">Nota</string>
+    <string name="username">Nome de Utilizador...</string>
+    <string name="password">Palavra-Passe...</string>
+    <string name="nota_vazia">Não podes deixar o título vazio</string>
 </resources>

@@ -10,4 +10,8 @@
     <string name="cancel_apagar">Cancel</string>
     <string name="title">Title</string>
     <string name="note">Note</string>
+    <string name="username">Username...</string>
+    <string name="password">Password...</string>
+    <string name="nota_vazia">You can\'t leave the title field empty</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 
 class AddNote : AppCompatActivity() {
 
@@ -25,6 +26,10 @@ class AddNote : AppCompatActivity() {
             val replyIntent = Intent()
             if (TextUtils.isEmpty(tituloText.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
+                Toast.makeText(
+                    applicationContext,
+                    R.string.nota_vazia,
+                    Toast.LENGTH_LONG).show()
             } else {
                 replyIntent.putExtra(EXTRA_REPLY_CITY, tituloText.text.toString())
                 replyIntent.putExtra(EXTRA_REPLY_COUNTRY, notaText.text.toString())
