@@ -15,18 +15,13 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MapsActivity::class.java)
             startActivity(intent)
         }
-    }
-    /*fun botaoNotas(view: View) {
-        val intent = Intent(this, MainActivity2::class.java).apply {
-            //putExtra(EXTRA_MESSAGE, message) passagem de parametros
+
+        botaoNotas.setOnClickListener {
+            val intent = Intent(this, MainActivity2::class.java)
+            startActivity(intent)
         }
-        startActivity(intent)
     }
 
-    fun botaoLogin(view: View) {
-        val intent = Intent(this, MapsActivity::class.java).apply {
-            //putExtra(EXTRA_MESSAGE, message) passagem de parametros
-        }
-        startActivity(intent)
-    }*/
+
+
 }
