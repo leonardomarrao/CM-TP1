@@ -14,4 +14,8 @@
     <string name="username">Nome de Utilizador...</string>
     <string name="password">Palavra-Passe...</string>
     <string name="nota_vazia">Não podes deixar o título vazio</string>
+    <string name="noUsername">Tens de preencher o campo do nome de utilizador</string>
+    <string name="noPassword">Tens de preencher o campo da palavra-passe</string>
+    <string name="serverError">Erro ao conectar ao servidor</string>
+    <string name="loginFail">O nome de utilizador e palavra-passe estão errados</string>
 </resources>
