@@ -18,4 +18,11 @@
     <string name="noPassword">Tens de preencher o campo da palavra-passe</string>
     <string name="serverError">Erro ao conectar ao servidor</string>
     <string name="loginFail">O nome de utilizador e palavra-passe estão errados</string>
+    <string name="logout">Terminar sessão</string>
+    <string-array name="filtroTipos">
+        <item name="all">Todos</item>
+        <item name="accident">Acidente</item>
+        <item name="construction">Obras</item>
+        <item name="other">Outro</item>
+    </string-array>
 </resources>

@@ -12,4 +12,9 @@ interface EndPoints {
             @Field("password") password: String
     ): Call<Utilizador>
 
+    @GET("registos")
+    fun getRegistos(
+            @Query("tipo") tipo: String?
+    ): Call<List<Registo>>
+
 }

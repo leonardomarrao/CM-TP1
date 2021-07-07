@@ -10,8 +10,8 @@ data class Registo(
         val id: Int,
         val nome: String,
         val descricao: String,
-        val latitude: Float,
-        val longitude: Float,
+        val latitude: Double,
+        val longitude: Double,
         val utilizador_id: Int,
         val tipo: String,
         val imagem: String

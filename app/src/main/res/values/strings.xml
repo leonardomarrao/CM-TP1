@@ -13,11 +13,18 @@
     <string name="username">Username...</string>
     <string name="password">Password...</string>
     <string name="nota_vazia">You can\'t leave the title field empty</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
     <string name="noUsername">You must fill the username box</string>
     <string name="noPassword">You must fill the password box</string>
     <string name="serverError">Error trying to connect to the server</string>
     <string name="sharedPref" translatable="false">sharedPref</string>
     <string name="idUtilizador" translatable="false">idUtilizador</string>
     <string name="loginFail">Wrong username and password</string>
+    <string name="logout">Logout</string>
+    <string-array name="filtroTipos">
+        <item name="all">All</item>
+        <item name="accident">Accident</item>
+        <item name="construction">Construction</item>
+        <item name="other">Other</item>
+    </string-array>
 </resources>
