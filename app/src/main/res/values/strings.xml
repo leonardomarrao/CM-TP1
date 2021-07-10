@@ -27,4 +27,5 @@
         <item name="construction">Construction</item>
         <item name="other">Other</item>
     </string-array>
+    <string name="errorLoadingImage">Error loading image</string>
 </resources>

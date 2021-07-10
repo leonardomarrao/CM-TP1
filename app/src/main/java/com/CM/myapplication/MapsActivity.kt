@@ -3,6 +3,8 @@ package com.CM.myapplication
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,41 +15,50 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.CM.myapplication.api.EndPoints
 import com.CM.myapplication.api.Registo
 import com.CM.myapplication.api.ServiceBuilder
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_maps.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var lastLocation: Location
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         getRegistos(null)
 
         filtroTipos.setOnItemSelectedListener(object : OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
 
-                var tipo: String? = when(position) {
+                var tipo: String? = when (position) {
                     0 -> null
                     1 -> "Accident"
                     2 -> "Construction"
@@ -66,22 +77,46 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.setInfoWindowAdapter(CustomMapInfoWindow(this))
+
+        mMap.setOnInfoWindowClickListener(this)
+
+    }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        val intent = Intent(this, RegistoEspecifico::class.java).apply {
+            putExtra("nome", marker.title)
+            putExtra("info", marker.snippet)
+        }
+        startActivity(intent)
+    }
+
+    private fun getLatLong() {
+
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+
+            getLatLong()
+            return
+        } else {
+            mMap.isMyLocationEnabled = true
+
+
+            fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+                if(location != null) {
+                    lastLocation = location
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -101,21 +136,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-     fun logout() {
+    fun logout() {
 
-         //limpar shared preferences
-         //voltar ao ecra do login
+        //limpar shared preferences
+        //voltar ao ecra do login
 
-         val sharedPreferences: SharedPreferences = getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)
-         with(sharedPreferences.edit()) {
-             putInt(getString(R.string.idUtilizador), -1)
-             commit()
+        val sharedPreferences: SharedPreferences =
+            getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putInt(getString(R.string.idUtilizador), -1)
+            commit()
 
-         }
+        }
 
-         val intent = Intent(this@MapsActivity, MainActivity::class.java)
-         startActivity(intent)
-         finish()
+        val intent = Intent(this@MapsActivity, MainActivity::class.java)
+        startActivity(intent)
+        finish()
 
     }
 
@@ -127,8 +163,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         call.enqueue(object : Callback<List<Registo>> {
             override fun onResponse(call: Call<List<Registo>>, response: Response<List<Registo>>) {
 
-                val sharedPreferences: SharedPreferences = getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)
-                val idUtilizador: Int? = sharedPreferences.getInt(getString(R.string.idUtilizador), -1)
+                val sharedPreferences: SharedPreferences =
+                    getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)
+                val idUtilizador: Int? =
+                    sharedPreferences.getInt(getString(R.string.idUtilizador), -1)
 
                 if (response.isSuccessful) {
 
@@ -137,14 +175,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     response.body()!!.forEach {
 
                         if (it.utilizador_id == idUtilizador) {
-                            cor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)
+                            cor =
+                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)
                         } else {
-                            cor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+                            cor =
+                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                         }
 
-                        mMap.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude))
+                        var snippet: String =
+                            it.id.toString() + "_" + it.descricao + "_" + it.tipo + "_" + it.utilizador_id.toString() + "_" + it.imagem
+
+                        mMap.addMarker(
+                            MarkerOptions().position(LatLng(it.latitude, it.longitude))
                                 .title(it.nome)
-                                .icon(cor))
+                                .snippet(snippet)
+                                .icon(cor)
+                        )
                     }
 
                 }
@@ -158,7 +204,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         })
 
     }
-
 
 
 }
