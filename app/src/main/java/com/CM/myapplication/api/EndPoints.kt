@@ -17,4 +17,10 @@ interface EndPoints {
             @Query("tipo") tipo: String?
     ): Call<List<Registo>>
 
+    @DELETE("api/reports/{id}")
+    fun deleteReport(
+            @Path("id") id: Int,
+            @Query("username") username: String
+    ): Call<OpRegisto>
+
 }

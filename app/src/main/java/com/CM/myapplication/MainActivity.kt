@@ -6,11 +6,6 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import com.CM.myapplication.api.EndPoints
 import com.CM.myapplication.api.ServiceBuilder
@@ -34,8 +29,8 @@ class MainActivity : AppCompatActivity() {
 
         botaoLogin.setOnClickListener {
 
-            val username = usernameBox.text.toString()
-            val password = passwordBox.text.toString()
+            val username = nomeRegistoAdd.text.toString()
+            val password = descricaoRegistoAdd.text.toString()
 
             if (username == "") {
 

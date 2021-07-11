@@ -28,8 +28,6 @@ class CustomMapInfoWindow(context: Context) : GoogleMap.InfoWindowAdapter {
         view.findViewById<TextView>(R.id.tipoRegisto).text = info[2]
         view.findViewById<TextView>(R.id.idUtilizador).text = info[3]
 
-        Log.d("haha", info.toString())
-
         Picasso.get()
                 .load("http://10.0.2.2/myslim/api/imagens/" + info[4] + ".png")
                 .into(view.findViewById(R.id.imagemRegisto), object : Callback {

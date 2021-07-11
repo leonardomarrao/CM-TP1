@@ -25,5 +25,16 @@
         <item name="construction">Obras</item>
         <item name="other">Outro</item>
     </string-array>
+    <string-array name="filtroTipos2">
+        <item name="accident">Acidente</item>
+        <item name="construction">Obra</item>
+        <item name="other">Outro</item>
+    </string-array>
     <string name="errorLoadingImage">Erro ao tentar carregar a imagem</string>
+    <string name="updateRep">Editar registo</string>
+    <string name="deleteRep">Apagar registo</string>
+    <string name="back">Voltar</string>
+    <string name="nome">Titulo do Registo</string>
+    <string name="descricao">Descrição</string>
+    <string name="addReport">Adicionar Registo</string>
 </resources>
