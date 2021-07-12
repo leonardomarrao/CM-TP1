@@ -9,12 +9,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.squareup.picasso.Callback
+import androidx.fragment.app.DialogFragment
+import com.CM.myapplication.api.EndPoints
+import com.CM.myapplication.api.OpRegisto
+import com.CM.myapplication.api.ServiceBuilder
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_registo_especifico.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+
 
 
 class RegistoEspecifico : AppCompatActivity() {
@@ -32,8 +41,6 @@ class RegistoEspecifico : AppCompatActivity() {
 
         val idUtilizador: Int? = sharedPreferences.getInt(getString(R.string.idUtilizador), -1)
 
-        Log.i("haha", idUtilizador.toString())
-
         var registo: String? = intent.getStringExtra("info")
 
         var infoRegisto: List<String> = registo!!.split("_")
@@ -45,19 +52,7 @@ class RegistoEspecifico : AppCompatActivity() {
 
         Picasso.get()
                 .load("http://10.0.2.2/myslim/api/imagens/" + infoRegisto[4] + ".png")
-                .into(findViewById(R.id.imagemRegistoEspecifico), object : Callback {
-                    override fun onSuccess() {
-
-                    }
-
-                    override fun onError(e: Exception?) {
-                        Toast.makeText(
-                                this@RegistoEspecifico,
-                                getString(R.string.errorLoadingImage),
-                                Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                .into(findViewById<ImageView>(R.id.imagemRegistoEspecifico))
 
 
         if (infoRegisto[3].toInt() != idUtilizador) {
@@ -70,11 +65,38 @@ class RegistoEspecifico : AppCompatActivity() {
 
         botaoApagar.setOnClickListener {
 
+            val request = ServiceBuilder.buildService(EndPoints::class.java)
+            val call = request.deleteRegisto(infoRegisto[0].toInt(), idUtilizador!!)
+
+            call.enqueue(object : Callback<OpRegisto> {
+                override fun onResponse(call: Call<OpRegisto>, response: Response<OpRegisto>) {
+                    if(response.isSuccessful && response.body()!!.error == null){
+                        Toast.makeText(this@RegistoEspecifico, getString(R.string.registoApagado), Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@RegistoEspecifico, MapsActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@RegistoEspecifico, infoRegisto[0], Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<OpRegisto>, t: Throwable) {
+                    Toast.makeText(this@RegistoEspecifico, getString(R.string.serverError), Toast.LENGTH_SHORT).show()
+                }
+            })
+
 
         }
 
+
         botaoUpdate.setOnClickListener {
 
+            val intent = Intent(this, UpdateRegisto::class.java).apply {
+                putExtra("nome", intent.getStringExtra("nome"))
+                putExtra("info", registo)
+            }
+            startActivity(intent)
+            finish()
 
         }
 
@@ -87,5 +109,9 @@ class RegistoEspecifico : AppCompatActivity() {
         }
 
 
+
+
+        }
+
+
     }
-}

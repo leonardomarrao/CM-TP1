@@ -32,6 +32,7 @@
     <string name="deleteRep">Delete Report</string>
     <string name="back">Return</string>
     <string-array name="filtroTipos2">
+        <item name="type">Type</item>
         <item name="accident">Accident</item>
         <item name="construction">Construction</item>
         <item name="other">Other</item>
@@ -39,4 +40,12 @@
     <string name="nome">Report Title</string>
     <string name="descricao">Description</string>
     <string name="addReport">Add Report</string>
+    <string name="emptyReport">You must fill all the fields</string>
+    <string name="registoApagado">Report succesfully deleted</string>
+    <string name="erroDeletarRegisto">Error trying to delete Report</string>
+    <string name="errorCreatingReport">Error trying to create report</string>
+    <string name="addImage">Add Image</string>
+    <string name="saveUpdate">Save changes</string>
+    <string name="naoMudouValores">You must change at least one field</string>
+    <string name="errorUpdating">Error while trying to update</string>
 </resources>

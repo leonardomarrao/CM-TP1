@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
 
         botaoLogin.setOnClickListener {
 
-            val username = nomeRegistoAdd.text.toString()
-            val password = descricaoRegistoAdd.text.toString()
+            val username = usernameBox.text.toString()
+            val password = passwordBox.text.toString()
 
             if (username == "") {
 

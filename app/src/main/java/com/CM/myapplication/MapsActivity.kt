@@ -43,7 +43,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWi
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -52,10 +52,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWi
 
         filtroTipos.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
             ) {
 
                 var tipo: String? = when (position) {
@@ -75,6 +75,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWi
         })
 
         botaoAdicionarRegisto.setOnClickListener() {
+            getLatLong()
             val intent = Intent(this, AdicionarRegisto::class.java).apply {
                 putExtra("latitude", lastLocation.latitude)
                 putExtra("longitude", lastLocation.longitude)
@@ -105,14 +106,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWi
 
     private fun getLatLong() {
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
 
             getLatLong()
             return
         } else {
             mMap.isMyLocationEnabled = true
-
 
             fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
                 if (location != null) {
@@ -135,7 +143,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWi
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         return when (item.itemId) {
             R.id.logout -> {
                 logout()
@@ -148,7 +155,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWi
     fun logout() {
 
         val sharedPreferences: SharedPreferences =
-                getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)
+            getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             putInt(getString(R.string.idUtilizador), -1)
             commit()
@@ -170,9 +177,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWi
             override fun onResponse(call: Call<List<Registo>>, response: Response<List<Registo>>) {
 
                 val sharedPreferences: SharedPreferences =
-                        getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)
+                    getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)
                 val idUtilizador: Int? =
-                        sharedPreferences.getInt(getString(R.string.idUtilizador), -1)
+                    sharedPreferences.getInt(getString(R.string.idUtilizador), -1)
 
                 if (response.isSuccessful) {
 
@@ -182,20 +189,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWi
 
                         if (it.utilizador_id == idUtilizador) {
                             cor =
-                                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)
+                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)
                         } else {
                             cor =
-                                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                         }
 
                         var snippet: String =
-                                it.id.toString() + "_" + it.descricao + "_" + it.tipo + "_" + it.utilizador_id.toString() + "_" + it.imagem
+                            it.id.toString() + "_" + it.descricao + "_" + it.tipo + "_" + it.utilizador_id.toString() + "_" + it.imagem
 
                         mMap.addMarker(
-                                MarkerOptions().position(LatLng(it.latitude, it.longitude))
-                                        .title(it.nome)
-                                        .snippet(snippet)
-                                        .icon(cor)
+                            MarkerOptions().position(LatLng(it.latitude, it.longitude))
+                                .title(it.nome)
+                                .snippet(snippet)
+                                .icon(cor)
                         )
                     }
 
