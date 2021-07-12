@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
                 dig.forEach { byte -> hashedPassword.append(String.format("%02X", byte)) }
 
 
-                //inicializar servico e selecionar endpoint q queremos
                 val request = ServiceBuilder.buildService(EndPoints::class.java)
                 val call = request.login(username, password)
 
